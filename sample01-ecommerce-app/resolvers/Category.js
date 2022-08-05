@@ -31,7 +31,6 @@ exports.Category = {
           });
 
           const avgProductRating = sumRating / numbersOfReviews;
-          console.log(sumRating, numbersOfReviews, avgProductRating, avgRating);
           return avgProductRating >= avgRating;
         });
       }
