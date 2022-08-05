@@ -2,7 +2,19 @@ exports.Query = {
   hello: () => {
     return "world!";
   },
-  products: (_, __, { products }) => products,
+  products: (_, { filter }, { products }) => {
+    let filteredProducts = products;
+
+    if (filter) {
+      if (filter.onSale !== null) {
+        filteredProducts = filteredProducts.filter(
+          (product) => product.onSale === filter.onSale
+        );
+      }
+    }
+
+    return filteredProducts;
+  },
   product: (_, { id }, { products }) => {
     return products.find((product) => product.id === id);
   },
