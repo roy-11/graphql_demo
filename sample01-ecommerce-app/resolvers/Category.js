@@ -1,8 +1,8 @@
 const { reviews } = require("../db");
 
 exports.Category = {
-  products: ({ id }, { filter }, { products, reviews }) => {
-    const categoryProducts = products.filter(
+  products: ({ id }, { filter }, { db }) => {
+    const categoryProducts = db.products.filter(
       (product) => product.categoryid === id
     );
     let filteredProducts = categoryProducts;
@@ -23,7 +23,7 @@ exports.Category = {
           let sumRating = 0;
           let numbersOfReviews = 0;
 
-          reviews.forEach((review) => {
+          db.reviews.forEach((review) => {
             if (product.id === review.productId) {
               sumRating += review.rating;
               numbersOfReviews++;

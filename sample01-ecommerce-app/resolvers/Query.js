@@ -2,8 +2,8 @@ exports.Query = {
   hello: () => {
     return "world!";
   },
-  products: (_, { filter }, { products, reviews }) => {
-    let filteredProducts = products;
+  products: (_, { filter }, { db }) => {
+    let filteredProducts = db.products;
 
     if (filter) {
       const { onSale, avgRating } = filter;
@@ -21,7 +21,7 @@ exports.Query = {
           let sumRating = 0;
           let numbersOfReviews = 0;
 
-          reviews.forEach((review) => {
+          db.reviews.forEach((review) => {
             if (product.id === review.productId) {
               sumRating += review.rating;
               numbersOfReviews++;
@@ -36,11 +36,11 @@ exports.Query = {
 
     return filteredProducts;
   },
-  product: (_, { id }, { products }) => {
-    return products.find((product) => product.id === id);
+  product: (_, { id }, { db }) => {
+    return db.products.find((product) => product.id === id);
   },
-  categories: (_, __, { categories }) => categories,
-  category: (_, { id }, { categories }) => {
-    return categories.find((category) => category.id === id);
+  categories: (_, __, { db }) => db.categories,
+  category: (_, { id }, { db }) => {
+    return db.categories.find((category) => category.id === id);
   },
 };
