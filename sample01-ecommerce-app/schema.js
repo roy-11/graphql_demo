@@ -14,9 +14,11 @@ exports.typeDefs = gql`
     addProduct(input: AddProductInput): Product!
     addReview(input: AddReviewInput): Review!
     deleteCategory(id: ID!): Boolean
+    deleteProduct(id: ID!): Boolean
   }
 
   type Product {
+    id: ID!
     name: String!
     description: String!
     quantity: Int!
@@ -40,6 +42,7 @@ exports.typeDefs = gql`
     rating: Int!
     comment: String!
     date: String!
+    productId: ID
   }
 
   input ProductFilterInput {
