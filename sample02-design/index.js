@@ -10,6 +10,33 @@ exports.typeDefs = gql`
     color: String!
     make: String!
   }
+
+  type ManualGroup {
+    id: ID!
+    name: String!
+    image: ID!
+    bodyHTML: String!
+    memberships: [GroupMembership!]!
+  }
+
+  type AutomaticGroup {
+    id: ID!
+    name: String!
+    image: ID!
+    bodyHTML: String!
+    memberships: [GroupMembership!]!
+    feature: [AutomaticGroupFeatures!]!
+    applyFeaturesSeparately: Boolean!
+  }
+
+  type AutomaticGroupFeatures {
+    name: String!
+  }
+
+  type GroupMembership {
+    groupId: ID!
+    carId: ID!
+  }
 `;
 
 const server = new ApolloServer({
