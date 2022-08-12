@@ -1,3 +1,4 @@
+import { Post } from "@prisma/client";
 import { Context } from "../index";
 
 interface PostCreateArgs {
@@ -5,18 +6,41 @@ interface PostCreateArgs {
   content: string;
 }
 
+interface PostPayloadType {
+  userErrors: {
+    message: string;
+  }[];
+  post: Post | null;
+}
+
 export const Mutation = {
-  postCreate: (
+  postCreate: async (
     _: any,
     { title, content }: PostCreateArgs,
     { prisma }: Context
-  ) => {
-    prisma.post.create({
+  ): Promise<PostPayloadType> => {
+    if (!title || !content) {
+      return {
+        userErrors: [
+          {
+            message: "no title or no content",
+          },
+        ],
+        post: null,
+      };
+    }
+
+    const post = await prisma.post.create({
       data: {
         title,
         content,
         authorId: 1,
       },
     });
+
+    return {
+      userErrors: [],
+      post,
+    };
   },
 };

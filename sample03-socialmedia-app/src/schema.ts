@@ -10,7 +10,7 @@ export const typeDefs = gql`
     title: String!
     content: String!
     published: Boolean!
-    createdAt: DateTime!
+    createdAt: String!
     user: User!
   }
 
@@ -37,7 +37,7 @@ export const typeDefs = gql`
     message: String!
   }
 
-  type Mustation {
+  type Mutation {
     postCreate(title: String!, content: String!): PostPayload!
   }
 `;
