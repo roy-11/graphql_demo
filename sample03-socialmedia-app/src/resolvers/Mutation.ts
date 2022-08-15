@@ -12,7 +12,7 @@ interface PostPayloadType {
   userErrors: {
     message: string;
   }[];
-  post: Post | null | Prisma.Prisma__PostClient<Post>;
+  post: Post | null | Prisma.Prisma__PostClient<Post | null>;
 }
 
 export const Mutation = {
@@ -92,6 +92,39 @@ export const Mutation = {
           id: Number(postId),
         },
       }),
+    };
+  },
+  postDelete: async (
+    _: any,
+    { postId }: { postId: String },
+    { prisma }: Context
+  ): Promise<PostPayloadType> => {
+    const post = prisma.post.findUnique({
+      where: {
+        id: Number(postId),
+      },
+    });
+
+    if (!post) {
+      return {
+        userErrors: [
+          {
+            message: "The post does not exist",
+          },
+        ],
+        post: null,
+      };
+    }
+
+    await prisma.post.delete({
+      where: {
+        id: Number(postId),
+      },
+    });
+
+    return {
+      userErrors: [],
+      post,
     };
   },
 };
