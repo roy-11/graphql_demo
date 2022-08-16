@@ -34,7 +34,7 @@ export const typeDefs = gql`
   }
 
   type AuthPayload {
-    user: User
+    token: String
     userErrors: [UserErrors!]!
   }
 
