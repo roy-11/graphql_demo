@@ -1,3 +1,5 @@
 #!/bin/sh
 
-export JWT_SIGNITURE="test"
+set -a 
+source .env
+set +a
