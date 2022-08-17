@@ -46,16 +46,21 @@ export const typeDefs = gql`
     title: String
     content: String
   }
+  
+  input CredentialsInput {
+    email: String!
+    name: String!
+  }
 
   type Mutation {
     postCreate(post: PostInput!): PostPayload!
     postUpdate(postId: ID!, post: PostInput!): PostPayload!
     postDelete(postId: ID!): PostPayload!
     signup(
-      email: String!
-      name: String!
+      credentials: CredentialsInput!
       password: String!
       bio: String!
     ): AuthPayload!
+    signin(credentials: CredentialsInput!): AuthPayload!; 
   }
 `;

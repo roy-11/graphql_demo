@@ -2,12 +2,22 @@ import { Context } from "../../index";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
+import { Token } from "graphql";
 
 interface SignupArgs {
-  email: string;
+  credentials: {
+    email: string;
+    password: string;
+  };
   name: string;
-  password: string;
   bio: string;
+}
+
+interface SigninArgs {
+  credentials: {
+    email: string;
+    password: string;
+  };
 }
 
 interface UserPayload {
@@ -20,9 +30,10 @@ interface UserPayload {
 export const authResolvers = {
   signup: async (
     _: any,
-    { email, password, name, bio }: SignupArgs,
+    { credentials, name, bio }: SignupArgs,
     { prisma }: Context
   ): Promise<UserPayload> => {
+    const { email, password } = credentials;
     const isEmail = validator.isEmail(email);
     if (!isEmail) {
       return {
@@ -80,7 +91,10 @@ export const authResolvers = {
       {
         userId: user.id,
       },
-      "aaaaaaaaaa"
+      process.env.JWT_SIGNITURE,
+      {
+        expiresIn: 864000 * 365,
+      }
     );
 
     return {
@@ -90,6 +104,48 @@ export const authResolvers = {
         },
       ],
       token,
+    };
+  },
+  signin: async (
+    _: any,
+    { credentials }: SigninArgs,
+    { prisma }: Context
+  ): Promise<UserPayload> => {
+    const { email, password } = credentials;
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      return {
+        userErrors: [
+          {
+            message: "invalid requet data",
+          },
+        ],
+        token: null,
+      };
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return {
+        userErrors: [
+          {
+            message: "invalid requet data",
+          },
+        ],
+        token: null,
+      };
+    }
+
+    return {
+      userErrors: [],
+      token: JWT.sign({ email }, process.env.JWT_SIGNITURE, {
+        expiresIn: 864000 * 365,
+      }),
     };
   },
 };
