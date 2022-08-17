@@ -2,7 +2,9 @@ import { Context } from "../../index";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
-import { Token } from "graphql";
+
+console.log(process.env.JWT_SIGNITURE);
+console.log(typeof process.env.JWT_SIGNITURE);
 
 interface SignupArgs {
   credentials: {
@@ -91,7 +93,7 @@ export const authResolvers = {
       {
         userId: user.id,
       },
-      process.env.JWT_SIGNITURE,
+      process.env.JWT_SIGNITURE || "",
       {
         expiresIn: 864000 * 365,
       }
@@ -143,7 +145,7 @@ export const authResolvers = {
 
     return {
       userErrors: [],
-      token: JWT.sign({ email }, process.env.JWT_SIGNITURE, {
+      token: JWT.sign({ email }, process.env.JWT_SIGNITURE || "", {
         expiresIn: 864000 * 365,
       }),
     };

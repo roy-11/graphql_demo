@@ -1,4 +1,3 @@
-import { prisma, Prisma, User } from "@prisma/client";
 import { Context } from "../index";
 
 interface CanUserMutatePost {
@@ -6,10 +5,6 @@ interface CanUserMutatePost {
   postId: number;
   prisma: Context["prisma"];
 }
-
-type Test = {
-  test: Prisma.Prisma__UserClient<User | null>;
-};
 
 export const canUserMutatePost = async ({
   userId,

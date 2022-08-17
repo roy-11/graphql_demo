@@ -46,10 +46,10 @@ export const typeDefs = gql`
     title: String
     content: String
   }
-  
+
   input CredentialsInput {
     email: String!
-    name: String!
+    password: String!
   }
 
   type Mutation {
@@ -60,9 +60,9 @@ export const typeDefs = gql`
     postUnpublish(postId: ID!): PostPayload!
     signup(
       credentials: CredentialsInput!
-      password: String!
+      name: String!
       bio: String!
     ): AuthPayload!
-    signin(credentials: CredentialsInput!): AuthPayload!; 
+    signin(credentials: CredentialsInput!): AuthPayload!
   }
 `;
