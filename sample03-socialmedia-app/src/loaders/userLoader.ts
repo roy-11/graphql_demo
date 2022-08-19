@@ -22,4 +22,4 @@ const batchUsers: BatchUsers = async (ids) => {
 };
 
 // @ts-ignore
-export const userLoaders = new DataLoader<number, User>(batchUsers);
+export const userLoader = new DataLoader<number, User>(batchUsers);
