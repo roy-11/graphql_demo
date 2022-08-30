@@ -77,6 +77,42 @@ async function main() {
     },
   });
   console.log(result9);
+
+  // Task10
+  // const result10 = await prisma.user.create({
+  //   data: {
+  //     name: "test",
+  //     email: "testemailTask10@test.test.test",
+  //     posts: {
+  //       create: {
+  //         title: "This is Test",
+  //       },
+  //     },
+  //   },
+  // });
+  // console.log("LOG: > main > result10", result10);
+  //
+
+  // Task11
+  const result11 = await prisma.user.findMany({
+    where: {
+      name: {
+        startsWith: "t",
+      },
+    },
+  });
+  console.log(" -------------------------");
+  console.log("main > result11", result11);
+  console.log(" -------------------------");
+
+  // Task12
+  const result12 = await prisma.user.findMany({
+    skip: 2,
+    take: 2,
+  });
+  console.log(" -------------------------");
+  console.log("main > result12", result12);
+  console.log(" -------------------------");
 }
 
 main()
