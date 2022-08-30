@@ -48,6 +48,35 @@ async function main() {
   //   },
   // });
   // console.log(result6);
+  //
+
+  // Task7
+  const result7 = await prisma.user.findUnique({
+    where: {
+      id: 1,
+    },
+  });
+  console.log(result7);
+
+  // Task8
+  const result8 = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+  console.log(result8);
+
+  // Task9
+  const result9 = await prisma.user.findUnique({
+    where: {
+      id: 1,
+    },
+    include: {
+      posts: true,
+    },
+  });
+  console.log(result9);
 }
 
 main()
